@@ -1,7 +1,7 @@
 package main
 
 import (
-	"log"
+	"fmt"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
@@ -9,13 +9,13 @@ import (
 
 func main() {
 
-	u, _ := url.Parse("http://localhost:8080")
+	u, _ := url.Parse("http://localhost:9200")
 	svc := httputil.NewSingleHostReverseProxy(u)
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		log.Println("[INFO] incoming req", r.Method, r.Host, r.URL.Path, "...")
+		fmt.Println("[INFO] incoming req", r.Method, r.Host, r.URL.Path, "...")
 		svc.ServeHTTP(w, r)
 	})
 
-	log.Fatal(http.ListenAndServe(":80", nil))
+	fmt.Println(http.ListenAndServe(":80", nil))
 }
